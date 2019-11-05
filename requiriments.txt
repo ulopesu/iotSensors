@@ -1,10 +1,23 @@
 pip install --upgrade django==2.2.7
 pip install djangorestframework
+apt install httpie
+
+
+GET UNITS
+http GET http://127.0.0.1:8000/units/
+
+POST SENSOR
+http http://127.0.0.1:8000/addSensor/ sensor:='{"label": "Kitchens freezer sensor (Arduino)",  "description": "Kitchens freezer sensor (Arduino)"}'
+
+http GET http://127.0.0.1:8000/getSensor/07e9a0a9-0c5f-424c-a0c0-437161626449/
+
+
+curl -X GET 'http://127.0.0.1:8000/getSensor/?key=07e9a0a9-0c5f-424c-a0c0-437161626449/'
 
 
 
 
 
 
-
-from iotSensors.core.serializers import UserSerializer, SensorSerializer, StreamSerializer, DataSerializer
+#such table
+python manage.py migrate --run-syncdb

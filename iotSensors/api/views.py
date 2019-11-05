@@ -1,16 +1,50 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render
+from rest_framework import viewsets
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from iotSensors.core.enum import UNIT_CHOICES
-from iotSensors.core.models import Sensor, Stream, Data
-from iotSensors.core.serializers import SensorSerializer, StreamSerializer, DataSerializer
-import uuid
+from iotSensors.core.models import Units, Sensor, Stream, Data
+from iotSensors.core.serializers import UnitsSerializer, UserSerializer, GroupSerializer, SensorSerializer, StreamSerializer, DataSerializer
+import uuid, json
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+class SensorViewSet(viewsets.ModelViewSet):
+    queryset = Sensor.objects.all().order_by('-date_joined')
+    serializer_class = SensorSerializer
+
+class StreamViewSet(viewsets.ModelViewSet):
+    queryset = Stream.objects.all().order_by('-date_joined')
+    serializer_class = StreamSerializer
+
+class DataViewSet(viewsets.ModelViewSet):
+    queryset = Data.objects.all().order_by('-date_joined')
+    serializer_class = DataSerializer
+
+class UnitsViewSet(viewsets.ReadOnlyModelViewSet):
+    if len(Units.objects.all()) > 0:
+        queryset = Units.objects.all()
+        serializer_class = UnitsSerializer
+    else:
+       unitObj = Units()
+       unitObj.save()
+
+
+"""
 def units(request):
     if request.method == 'GET':
         units = [{'oid': unit[0], 'label': unit[1]} for unit in UNIT_CHOICES]
-        return units
-
+    return HttpResponse(json.dumps(units), content_type='text/json')
 
 def userSensors(request, user):
     if request.method == 'GET':
@@ -58,8 +92,7 @@ def addSensor(request, data):
         key = uuid.uuid4()
         label = data.label
         description = data.label
-        oid = Sensor.classOID
-        sensor = Sensor(classOID = oid+1, user=user, oid=oid, key=key, label=label, description=description)
+        sensor = Sensor(user=user, key=key, label=label, description=description)
         sensor.save()
         sensorSerialized = SensorSerializer(sensor)
         return HttpResponse(sensorSerialized.data, content_type='text/json')
@@ -68,3 +101,4 @@ def addSensor(request, data):
 
     
 
+"""

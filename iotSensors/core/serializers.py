@@ -1,16 +1,28 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from iotSensors.core.models import Sensor, Stream, Data
+from django.contrib.auth.models import User, Group
+from iotSensors.core.models import Sensor, Stream, Data, Units
 from iotSensors.core.enum import UNIT_CHOICES
 
-class UserSerializer(serializers.ModelSerializer):
-    #username = serializers.CharField(required=True, allow_blank=False, max_length=100)
-    #email = serializers.CharField(required=True, allow_blank=False, max_length=100)
+
+class UnitsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Units
+        fields = ['units']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['url', 'username', 'email', 'groups']
 
-class SensorSerializer(serializers.ModelSerializer):
+
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['url', 'name']
+
+
+class SensorSerializer(serializers.HyperlinkedModelSerializer):
     #user = UserSerializer()
     #key = serializers.IntegerField(read_only=True)
     #label = serializers.CharField(required=True, allow_blank=False, max_length=100)
@@ -19,7 +31,7 @@ class SensorSerializer(serializers.ModelSerializer):
         model = Sensor
         fields = ['user','key', 'label', 'description']
 
-class StreamSerializer(serializers.ModelSerializer):
+class StreamSerializer(serializers.HyperlinkedModelSerializer):
     #sensor = SensorSerializer()
     #key = serializers.IntegerField(read_only=True)
     #label = serializers.CharField(required=True, allow_blank=False, max_length=100)
@@ -29,13 +41,12 @@ class StreamSerializer(serializers.ModelSerializer):
         model = Stream
         fields = ['sensor', 'key', 'label', 'enable','unit']
 
-class DataSerializer(serializers.ModelSerializer):
+class DataSerializer(serializers.HyperlinkedModelSerializer):
     #stream = StreamSerializer()
     #timestamp = serializers.DateTimeField()
     #value = serializers.FloatField()
     class Meta:
         model = Data
         fields = ['stream', 'timestamp', 'value']
-
-
+        
     
