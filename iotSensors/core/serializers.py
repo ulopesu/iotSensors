@@ -17,7 +17,7 @@ class SensorSerializer(serializers.ModelSerializer):
     #description = serializers.CharField(required=False, allow_blank=True, max_length=1000)
     class Meta:
         model = Sensor
-        fields = ['user', 'oid','key', 'label', 'description']
+        fields = ['user','key', 'label', 'description']
 
 class StreamSerializer(serializers.ModelSerializer):
     #sensor = SensorSerializer()
@@ -26,16 +26,16 @@ class StreamSerializer(serializers.ModelSerializer):
     #enable = serializers.BooleanField()
     #unit = serializers.ChoiceField(choices= UNIT_CHOICES)
     class Meta:
-        Stream
-        fields = ['sensor', 'oid', 'key', 'label', 'enable','unit']
+        model = Stream
+        fields = ['sensor', 'key', 'label', 'enable','unit']
 
 class DataSerializer(serializers.ModelSerializer):
     #stream = StreamSerializer()
     #timestamp = serializers.DateTimeField()
     #value = serializers.FloatField()
     class Meta:
-        Data
-        fields = ['stream', 'oid', 'timestamp', 'value']
+        model = Data
+        fields = ['stream', 'timestamp', 'value']
 
 
     
