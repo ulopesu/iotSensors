@@ -5,8 +5,10 @@ from iotSensors.api import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
 router.register(r'units', views.UnitsViewSet)
+router.register(r'sensor', views.SensorViewSet)
+router.register(r'stream', views.StreamViewSet)
+router.register(r'data', views.DataViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

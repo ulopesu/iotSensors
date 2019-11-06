@@ -1,34 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User, Group
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from iotSensors.core.enum import UNIT_CHOICES
-from iotSensors.core.models import Units, Sensor, Stream, Data
-from iotSensors.core.serializers import UnitsSerializer, UserSerializer, GroupSerializer, SensorSerializer, StreamSerializer, DataSerializer
+from iotSensors.core.models import Units, User, Sensor, Stream, Data
+from iotSensors.core.serializers import UnitsSerializer, UserSerializer, SensorSerializer, StreamSerializer, DataSerializer
 import uuid, json
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('-date_joined')
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
 class SensorViewSet(viewsets.ModelViewSet):
-    queryset = Sensor.objects.all().order_by('-date_joined')
+    queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
 
 class StreamViewSet(viewsets.ModelViewSet):
-    queryset = Stream.objects.all().order_by('-date_joined')
+    queryset = Stream.objects.all()
     serializer_class = StreamSerializer
 
 class DataViewSet(viewsets.ModelViewSet):
-    queryset = Data.objects.all().order_by('-date_joined')
+    queryset = Data.objects.all()
     serializer_class = DataSerializer
 
 class UnitsViewSet(viewsets.ReadOnlyModelViewSet):
@@ -39,13 +34,16 @@ class UnitsViewSet(viewsets.ReadOnlyModelViewSet):
        unitObj = Units()
        unitObj.save()
 
+"""
+    @action(methods=['GET'], detail=False, url_path='', name='Get Units')
+    def getUnits(self, request):
+        if request.method == 'GET':
+            units = [{'oid': unit[0], 'label': unit[1]} for unit in UNIT_CHOICES]
+        return HttpResponse(json.dumps(units), content_type='text/json')
+"""
+
 
 """
-def units(request):
-    if request.method == 'GET':
-        units = [{'oid': unit[0], 'label': unit[1]} for unit in UNIT_CHOICES]
-    return HttpResponse(json.dumps(units), content_type='text/json')
-
 def userSensors(request, user):
     if request.method == 'GET':
         try:

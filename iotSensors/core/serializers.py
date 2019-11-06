@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User, Group
-from iotSensors.core.models import Sensor, Stream, Data, Units
+from iotSensors.core.models import Units, User, Sensor, Stream, Data
 from iotSensors.core.enum import UNIT_CHOICES
 
 
@@ -13,13 +12,7 @@ class UnitsSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
-
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
+        fields = ['oid', 'username', 'email']
 
 
 class SensorSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,7 +22,8 @@ class SensorSerializer(serializers.HyperlinkedModelSerializer):
     #description = serializers.CharField(required=False, allow_blank=True, max_length=1000)
     class Meta:
         model = Sensor
-        fields = ['user','key', 'label', 'description']
+        fields = ['oid', 'user', 'key', 'label', 'description']
+
 
 class StreamSerializer(serializers.HyperlinkedModelSerializer):
     #sensor = SensorSerializer()
@@ -39,7 +33,8 @@ class StreamSerializer(serializers.HyperlinkedModelSerializer):
     #unit = serializers.ChoiceField(choices= UNIT_CHOICES)
     class Meta:
         model = Stream
-        fields = ['sensor', 'key', 'label', 'enable','unit']
+        fields = ['oid', 'sensor', 'key', 'label', 'enable','unit']
+
 
 class DataSerializer(serializers.HyperlinkedModelSerializer):
     #stream = StreamSerializer()
