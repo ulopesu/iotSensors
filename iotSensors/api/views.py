@@ -20,6 +20,7 @@ def getSensors(request, id):
     serializer_context = {
         'request': Request(request),
     }
+
     if request.method == 'GET':
         try:
             user = User.objects.get(oid=id)
@@ -27,10 +28,10 @@ def getSensors(request, id):
             return HttpResponse({'message': 'User do not exist!'}, content_type='text/json')
 
         response = []
-        sensors = Sensor.objects.get(user=user)
+        sensors = Sensor.objects.filter(user=user)
         for sensor in sensors:
-            sensorSerialized = SensorSerializer(sensor)
-            reponse.append(sensorSerialized.data)
+            sensorSerialized = SensorSerializer(sensor, context=serializer_context)
+            response.append(sensorSerialized.data)
 
         return HttpResponse(json.dumps(response), content_type='text/json')
 

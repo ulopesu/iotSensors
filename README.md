@@ -1,89 +1,80 @@
 # IotSensores
 
-Api para geren
 
-## Getting Started
+## Introdução
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Essa é uma api para maninular sensores de usuários.
+
 
 ### Prerequisites
 
 python3.8
 pip
 
-```
-Give examples
-```
 
-### Installing
+### Instalação
 
-A step by step series of examples that tell you how to get a development env running
+INSTALAR PYTHON
+    LINUX:
+        -executar           sudo apt-get install python3.8
+    WINDOWNS
+        -baixer e executar  https://www.python.org/ftp/python/3.8.0/python-3.8.0.exe
 
-Say what the step will be
 
-```
-Give the example
-```
+INSTALAR PIP
+    LINUX:
+        -executar   sudo apt-get install httpie
+    WINDOWNS:
+        -baixar    https://bootstrap.pypa.io/get-pip.py
+        -executar  python get-pip.py
 
-And repeat
 
-```
-until finished
-```
+CRIAR E CONFIGURAR VIRTUAL_ENV
+    LINUX
+        -executar   python -m venv nome_your_venv
+                    nome_your_venv/bin/activate
+                    pip install --upgrade django==2.2.7
+                    pip install djangorestframework
+                   
+    WINDOWNS
+        -executar:  virtualenv nome_your_venv
+                    nome_your_venv\Scripts\activate
+                    pip install --upgrade django==2.2.7
+                    pip install djangorestframework
 
-End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
+INSTALAR HTTPIE
+    -executar: pip install --upgrade httpie
 
-Explain how to run the automated tests for this system
 
-### Break down into end to end tests
+## Executando Testes
 
-Explain what these tests test and why
 
-```
-Give an example
-```
+GET UNITS
+    http GET URL_API/units/1/?format=json
 
-### And coding style tests
+GET SENSORS OF USER
+    http GET user/USER_ID/getSensors/
 
-Explain what these tests test and why
+GET SENSOR WITH KEY
+    http GET URL_API/sensor/KEY_UUID/?format=json
 
-```
-Give an example
-```
+GET STREAM WITH KEY
+    http GET URL_API/stream/KEY_UUID/?format=json
 
-## Deployment
+POST SENSOR
+    http POST URL_API/sensor/  user="URL_API/users/PRIMARY_KEY/" label="Your_Sensor_Label description="Your_Sensor_Description"
 
-Add additional notes about how to deploy this on a live system
+POST STREAM IN SENSOR
+    http POST URL_API/stream/  sensor="URL_API/sensor/KEY_UUID/" label="Your_Stream_Label" enable=boolean unit=VALUE_OF_UNIT_INT_ENUM
 
-## Built With
+POST DATA IN STREAM
+    http POST URL_API/data/  stream="URL_API/stream/KEY_UUID/" timestamp="TIME_FORMAT_UTC" value=VALUE_FLOAT
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+## Autor
 
-## Versioning
+    **Usiel Lopes** -- [ulopesu](https://github.com/ulopesu)
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 

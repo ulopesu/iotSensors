@@ -10,18 +10,18 @@ class Unit(models.Model):
 class User(models.Model):
     oid = models.AutoField(primary_key=True)
     username = models.CharField('UserName', max_length=100)
-    email =  models.EmailField(max_length=254)
+    email =  models.EmailField(max_length=254, write_only=True)
 
 
 class Sensor(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="sensors")
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="sensors", write_only=True)
     key = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField('Label', max_length=100)
     description = models.CharField('Description',  max_length=1000)
 
 
 class Stream(models.Model):
-    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name="streams")
+    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name="streams", write_only=True)
     key = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField('Label',  max_length=100)
     enable = models.BooleanField('Enable')
@@ -29,7 +29,7 @@ class Stream(models.Model):
     
 
 class Data(models.Model):
-    stream = models.ForeignKey('Stream', on_delete=models.CASCADE, related_name="data")
+    stream = models.ForeignKey('Stream', on_delete=models.CASCADE, related_name="data", write_only=True)
     timestamp = models.DateTimeField("TimeStamp", auto_now=False, auto_now_add=False)
     value = models.FloatField('Value')
 

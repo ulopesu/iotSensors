@@ -18,7 +18,7 @@ class DataSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StreamSerializer(serializers.HyperlinkedModelSerializer):
-    oid = serializers.CharField(source='id', read_only=True)
+    oid = serializers.CharField(source='id')
     data = DataSerializer(many=True, read_only=True)
     #sensor = SensorSerializer()
     #key = serializers.IntegerField(read_only=True)
@@ -27,11 +27,11 @@ class StreamSerializer(serializers.HyperlinkedModelSerializer):
     #unit = serializers.ChoiceField(choices= UNIT_CHOICES)
     class Meta:
         model = Stream
-        fields = ['oid', 'sensor', 'key', 'label', 'enable', 'unit', 'data']
+        fields = ['id', 'sensor', 'key', 'label', 'enable', 'unit', 'data']
 
 
 class SensorSerializer(serializers.HyperlinkedModelSerializer):
-    oid = serializers.CharField(source='id', read_only=True)
+    oid = serializers.CharField(source='id')
     streams = StreamSerializer(many=True, read_only=True)
     #user = UserSerializer()
     #key = serializers.IntegerField(read_only=True)
