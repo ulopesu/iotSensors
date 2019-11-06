@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from iotSensors.core.models import Unit, User, Sensor, Stream, Data
 
+"""ESPECIFICA COMO CADA CLASSE SERA SERIALIZADA"""
 
 class UnitSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

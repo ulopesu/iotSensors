@@ -3,6 +3,8 @@ from django.urls import include, path
 from rest_framework import routers
 from iotSensors.api import views
 
+"""CONFIGURA E DEFINE TODAS AS URLS DO PROJETO"""
+
 router = routers.DefaultRouter()
 router.register(r'user', views.UserViewSet)
 router.register(r'unit', views.UnitViewSet)

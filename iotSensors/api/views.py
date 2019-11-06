@@ -10,34 +10,13 @@ from iotSensors.core.models import Unit, User, Sensor, Stream, Data
 from iotSensors.core.serializers import UnitSerializer, UserSerializer, SensorSerializer, StreamSerializer, DataSerializer
 import uuid, json
 
+
+"""DEFINA TODAS AS VIEWS"""
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-
-
-def getSensors(request, id):
-    serializer_context = {
-        'request': Request(request),
-    }
-
-    if request.method == 'GET':
-        try:
-            user = User.objects.get(oid=id)
-        except User.DoesNotExist:
-            return HttpResponse({'message': 'User do not exist!'}, content_type='text/json')
-
-        response = []
-        sensors = Sensor.objects.filter(user=user)
-        for sensor in sensors:
-            sensorSerialized = SensorSerializer(sensor, context=serializer_context)
-            response.append(sensorSerialized.data)
-
-        return HttpResponse(json.dumps(response), content_type='text/json')
-
                 
-
-
 
 class SensorViewSet(viewsets.ModelViewSet):
     queryset = Sensor.objects.all()
@@ -56,3 +35,23 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UnitSerializer
 
 
+
+"""RETORNA O JSON DE TODOS OS SENSORES DE UM USUARIO"""
+def getSensors(request, id):
+    serializer_context = {
+        'request': Request(request),
+    }
+
+    if request.method == 'GET':
+        try:
+            user = User.objects.get(oid=id)
+        except User.DoesNotExist:
+            return HttpResponse({'message': 'User do not exist!'}, content_type='text/json')
+
+        response = []
+        sensors = Sensor.objects.filter(user=user)
+        for sensor in sensors:
+            sensorSerialized = SensorSerializer(sensor, context=serializer_context)
+            response.append(sensorSerialized.data)
+
+        return HttpResponse(json.dumps(response), content_type='text/json')

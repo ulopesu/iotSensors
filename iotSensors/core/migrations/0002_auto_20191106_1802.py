@@ -3,7 +3,6 @@ from django.core.management import call_command
 
 
 def load_fixture(apps, schema_editor):
-    # No, it's wrong. DON'T DO THIS!
     call_command('loaddata', 'unit.json', app_label='core')
 
 
