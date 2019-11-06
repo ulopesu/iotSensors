@@ -1,10 +1,12 @@
 from django.db import models
-from iotSensors.core.enum import UNIT_CHOICES
 import uuid, json
 
-class Units(models.Model):
-    units = [{'oid': unit[0], 'label': unit[1]} for unit in UNIT_CHOICES]
-    
+class Unit(models.Model):
+    description = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.description
+
 class User(models.Model):
     oid = models.AutoField(primary_key=True)
     username = models.CharField('UserName', max_length=100)
@@ -12,7 +14,7 @@ class User(models.Model):
 
 class Sensor(models.Model):
     oid = models.AutoField(primary_key=True)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="sensors")
     key = models.UUIDField(default=uuid.uuid4, editable=False)
     label = models.CharField('Label', max_length=100)
     description = models.CharField('Description',  max_length=1000)
@@ -20,16 +22,15 @@ class Sensor(models.Model):
 
 class Stream(models.Model):
     oid = models.AutoField(primary_key=True)
-    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE)
+    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name="streams")
     key = models.UUIDField(default=uuid.uuid4, editable=False)
     label = models.CharField('Label',  max_length=100)
     enable = models.BooleanField('Enable')
-    unit = models.CharField(max_length=5, choices = UNIT_CHOICES)
-
-
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="+")
+    
 
 class Data(models.Model):
-    stream = models.ForeignKey('Stream', on_delete=models.CASCADE)
+    stream = models.ForeignKey('Stream', on_delete=models.CASCADE, related_name="data")
     timestamp = models.DateTimeField("TimeStamp", auto_now=False, auto_now_add=False)
     value = models.FloatField('Value')
 

@@ -1,0 +1,37 @@
+[
+    {
+        "model": "core.unit",
+        "pk": 1,
+        "fields": {
+            "description": "\u00baC"
+        }
+    },
+    {
+        "model": "core.unit",
+        "pk": 2,
+        "fields": {
+            "description": "mg/m\u00b3"
+        }
+    },
+    {
+        "model": "core.unit",
+        "pk": 3,
+        "fields": {
+            "description": "hPA"
+        }
+    },
+    {
+        "model": "core.unit",
+        "pk": 4,
+        "fields": {
+            "description": "lux"
+        }
+    },
+    {
+        "model": "core.unit",
+        "pk": 5,
+        "fields": {
+            "description": "%"
+        }
+    }
+]

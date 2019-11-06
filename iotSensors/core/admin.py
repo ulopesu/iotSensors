@@ -1,5 +1,9 @@
 from django.contrib import admin
-from iotSensors.core.models import Sensor, Stream, Data
+from iotSensors.core.models import Sensor, Stream, Data, Unit
+
+class UnitAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Unit, UnitAdmin)
 
 class SensorAdmin(admin.ModelAdmin):
     pass
