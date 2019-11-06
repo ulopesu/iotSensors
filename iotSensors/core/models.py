@@ -12,18 +12,17 @@ class User(models.Model):
     username = models.CharField('UserName', max_length=100)
     email =  models.EmailField(max_length=254)
 
+
 class Sensor(models.Model):
-    oid = models.AutoField(primary_key=True)
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="sensors")
-    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    key = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField('Label', max_length=100)
     description = models.CharField('Description',  max_length=1000)
 
 
 class Stream(models.Model):
-    oid = models.AutoField(primary_key=True)
     sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name="streams")
-    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    key = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     label = models.CharField('Label',  max_length=100)
     enable = models.BooleanField('Enable')
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="+")

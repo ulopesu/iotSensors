@@ -2,7 +2,7 @@ from rest_framework import serializers
 from iotSensors.core.models import Unit, User, Sensor, Stream, Data
 
 
-class UnitsSerializer(serializers.HyperlinkedModelSerializer):
+class UnitSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Unit
         fields = ['id', 'description']
@@ -18,19 +18,21 @@ class DataSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StreamSerializer(serializers.HyperlinkedModelSerializer):
+    oid = serializers.CharField(source='id', read_only=True)
+    data = DataSerializer(many=True, read_only=True)
     #sensor = SensorSerializer()
     #key = serializers.IntegerField(read_only=True)
     #label = serializers.CharField(required=True, allow_blank=False, max_length=100)
     #enable = serializers.BooleanField()
     #unit = serializers.ChoiceField(choices= UNIT_CHOICES)
-    data = DataSerializer(many=True)
     class Meta:
         model = Stream
         fields = ['oid', 'sensor', 'key', 'label', 'enable', 'unit', 'data']
 
 
 class SensorSerializer(serializers.HyperlinkedModelSerializer):
-    streams = StreamSerializer(many=True)
+    oid = serializers.CharField(source='id', read_only=True)
+    streams = StreamSerializer(many=True, read_only=True)
     #user = UserSerializer()
     #key = serializers.IntegerField(read_only=True)
     #label = serializers.CharField(required=True, allow_blank=False, max_length=100)
@@ -41,7 +43,7 @@ class SensorSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    sensors = SensorSerializer(many=True)
+    sensors = SensorSerializer(many=True, read_only=True)
     class Meta:
         model = User
         fields = ['oid', 'username', 'email', 'sensors']
